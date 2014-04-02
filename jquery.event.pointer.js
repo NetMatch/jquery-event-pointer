@@ -1,4 +1,12 @@
-﻿(function( factory ) {
+﻿/*!
+* Polyfill and normalization support for pointer events, based on jQuery's special event system.
+* https://github.com/NetMatch/jquery-event-pointer
+*
+* Copyright 2014 NetMatch
+* Released under the MIT license
+* https://github.com/NetMatch/jquery-event-pointer/blob/master/LICENSE
+*/
+(function( factory ) {
 	if ( typeof define === "function" && define.amd ) {
 		// AMD. Register as an anonymous module.
 		define([ "jquery" ], factory );
@@ -160,14 +168,12 @@
 
 	jQuery.extend( PointerProxy, {
 
-		/**
-		 * Tracks recent touchstart events to detect and discard simulated mouse events.
-		 */
+		
+		// Tracks recent touchstart events to detect and discard simulated mouse events.
 		recentTouchStarts : [],
 
-		/**
-		 * Maps pointer events to their requisite mouse and touch events.
-		 */
+
+		// Maps pointer events to their requisite mouse and touch events.
 		typemap : {
 			"pointerdown" : {
 				"mousedown"  : "_proxyMouseEvent",
@@ -199,10 +205,6 @@
 			}
 		},
 
-		/**
-		 * Binds proxying behavior for the specified pointer event to the specified document,
-		 * creating a new `PointerProxy` instance on the document if necessary.
-		 */
 		bind : function( document, type ) {
 			var me = this,
 				data = jQuery.data( document ),
@@ -215,11 +217,6 @@
 			data.__pointerproxy.bind( type );
 		},
 
-		/**
-		 * Unbinds proxying behavior for the specified pointer event from the specified document,
-		 * removing the reference to the existing `PointerProxy` instance if possible, to allow
-		 * garbage collection.
-		 */
 		unbind : function( document, type ) {
 			var me = this,
 				data = jQuery.data( document ),
@@ -237,18 +234,10 @@
 	PointerProxy.prototype = {
 		constructor : PointerProxy,
 
-		/**
-		 * Determines whether the current `PointerProxy` instance has any bound event handlers.
-		 * @return {boolean} `true` when any event handlers are currently bound to the proxy; otherwise, `false`.
-		 */
 		isBound : function() {
 			return ( this._refCounters.all === 0 );
 		},
 
-		/**
-		 * Binds the specified pointer event type through the current `PointerProxy` instance.
-		 * @param {string} type The pointer event type to bind.
-		 */
 		bind : function( type ) {
 			var me = this,
 				refCounters = me._refCounters;
@@ -267,10 +256,6 @@
 			});
 		},
 
-		/**
-		 * Unbinds the specified pointer event type from the current `PointerProxy` instance.
-		 * @param {string} type The pointer event type to unbind.
-		 */
 		unbind : function( type ) {
 			var me = this,
 				refCounters = me._refCounters;
